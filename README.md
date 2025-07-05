@@ -1,4 +1,3 @@
-# Goにおける並行処理
+# Go Concurrency in practice
 
-## 参考
-[Goでの並行処理を徹底解剖！](https://zenn.dev/hsaki/books/golang-concurrency)
+Goの並行処理の実装パターンの紹介と、[A Tour of Go](https://go-tour-jp.appspot.com/list)での実践。
