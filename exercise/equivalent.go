@@ -18,7 +18,6 @@ func walk(t *tree.Tree, ch chan int) {
 	if t == nil {
 		return
 	}
-
 	if t.Left != nil {
 		walk(t.Left, ch)
 	}
@@ -32,7 +31,6 @@ func walk(t *tree.Tree, ch chan int) {
 // Same determines whether the trees
 // t1 and t2 contain the same values.
 func Same(t1, t2 *tree.Tree) bool {
-
 	ch1, ch2 := make(chan int), make(chan int)
 	go Walk(t1, ch1)
 	go Walk(t2, ch2)
