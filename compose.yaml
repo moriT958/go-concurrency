@@ -1,0 +1,41 @@
+services:
+  master:
+    image: chrislusf/seaweedfs:4.03
+    ports:
+      - 9333:9333
+      - 19333:19333
+    command: "master -ip=master -ip.bind=0.0.0.0"
+    volumes:
+      - ./docker/data/master:/data
+  volume:
+    image: chrislusf/seaweedfs:4.03
+    ports:
+      - 8080:8080
+      - 18080:18080
+    command: 'volume -ip=volume -master="master:9333" -ip.bind=0.0.0.0 -port=8080'
+    volumes:
+      - ./docker/data/volume:/data
+    depends_on:
+      - master
+  filer:
+    image: chrislusf/seaweedfs:4.03
+    ports:
+      - 8888:8888
+      - 18888:18888
+    command: 'filer -ip=filer -master="master:9333" -ip.bind=0.0.0.0'
+    volumes:
+      - ./docker/data/filer:/data
+    tty: true
+    stdin_open: true
+    depends_on:
+      - master
+      - volume
+  s3:
+    image: chrislusf/seaweedfs:4.03
+    ports:
+      - 8333:8333
+    command: 's3 -filer="filer:8888" -ip.bind=0.0.0.0'
+    depends_on:
+      - master
+      - volume
+      - filer
