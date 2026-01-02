@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"image"
 	"image/jpeg"
+	"log/slog"
 )
 
 // スクリーンショットをグレスケール変換するジョブ
@@ -14,7 +15,19 @@ type GrayScaleJob struct {
 }
 
 func GrayScaleWorker(ctx context.Context, in <-chan GrayScaleJob, out chan<- UploadImgJob) {
-
+	for job := range in {
+		select {
+		case <-ctx.Done():
+			return
+		default:
+			grayscaleImg, err := processGrayScale(job.Img)
+			if err != nil {
+				slog.Error(fmt.Sprintf("failed to process gray scale: %v", err))
+				continue
+			}
+			out <- UploadImgJob{grayscaleImg}
+		}
+	}
 }
 
 func processGrayScale(originalImg []byte) ([]byte, error) {
