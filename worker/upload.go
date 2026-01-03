@@ -11,6 +11,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
 	"github.com/aws/aws-sdk-go-v2/service/s3/types"
+	"github.com/google/uuid"
 )
 
 // 画像をストレージにアップロードするジョブ
@@ -34,7 +35,7 @@ func (c *S3Client) UploadWorker(ctx context.Context, in <-chan UploadImgJob) {
 
 // オブジェクトストレージにアップロードする
 func (c *S3Client) processUploadImg(ctx context.Context, img []byte) error {
-	objKey := fmt.Sprintf("grayscale-%s.jpg", time.Now().Format("20060102-150405-000000000"))
+	objKey := fmt.Sprintf("grayscale-%s.jpg", uuid.New().String())
 
 	// S3 にアップロード
 	_, err := c.Client.PutObject(ctx, &s3.PutObjectInput{
