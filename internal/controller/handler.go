@@ -1,12 +1,10 @@
-package internal
+package controller
 
 import (
 	"encoding/json"
 	"log/slog"
 	"net/http"
 )
-
-type AppServer struct{}
 
 func (svr *AppServer) ConvertGrayscalePost(w http.ResponseWriter, r *http.Request) {
 	var Url ConvertRequestSchema
