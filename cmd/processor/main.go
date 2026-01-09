@@ -1,7 +1,7 @@
 package main
 
 import (
-	"concurrency/worker"
+	"concurrency/internal/worker"
 	"context"
 	"log"
 	"sync"
